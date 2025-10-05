@@ -1,0 +1,51 @@
+name: GitHub Pages にデプロイ
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: # 手動実行も可能にする
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時実行の制御: 同じブランチへのプッシュが続いた場合、古い実行はキャンセルする
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: 依存関係インストール
+        run: npm ci
+
+      - name: 静的ファイルのビルド
+        run: npm run build # rspack build を実行
+
+      - name: デプロイ用アーティファクトのアップロード
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
