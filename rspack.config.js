@@ -4,7 +4,7 @@ const rspack = require('@rspack/core');
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  entry: './src_js/index.js',
+  entry: './src/index.js',
 
   // ビルド設定
   output: {
@@ -20,7 +20,7 @@ module.exports = {
       directory: path.join(__dirname), // プロジェクト全体を配信対象に
     },
     hot: true, // ホットリロード
-    watchFiles: ['src_js/**/*', 'src_py/**/*', 'public/**/*'],
+    watchFiles: ['src/**/*', 'public/**/*'],
   },
 
   plugins: [
@@ -29,7 +29,7 @@ module.exports = {
     }),
     new rspack.CopyRspackPlugin({
       patterns: [
-        { from: 'src_py/streamlit_app.py', to: 'src_py/' },
+        { from: 'src/src_py/streamlit_app.py', to: 'src_py/' },
         // { from: 'requirements.txt', to: '.' },
       ],
     }),
