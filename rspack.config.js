@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: './src_js/index.js',
   devServer: {
     static: {
       directory: path.join(__dirname), // プロジェクト全体を配信対象に
     },
     hot: true, // ホットリロード
-    watchFiles: ['src/**/*', 'public/**/*'],
+    watchFiles: ['src_js/**/*', 'src_py/**/*', 'public/**/*'],
   },
   plugins: [
     new HtmlWebpackPlugin({
