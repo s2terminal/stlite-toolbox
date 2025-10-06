@@ -17,10 +17,11 @@ module.exports = {
   // 開発サーバー設定
   devServer: {
     static: {
-      directory: path.join(__dirname), // プロジェクト全体を配信対象に
+      directory: path.join(__dirname, 'public'),
     },
     hot: true, // ホットリロード
     watchFiles: ['src/**/*', 'public/**/*'],
+    open: true,
   },
 
   plugins: [
@@ -29,19 +30,11 @@ module.exports = {
     }),
     new rspack.CopyRspackPlugin({
       patterns: [
-        { from: 'src/src_py/streamlit_app.py', to: 'src_py/' },
-        // { from: 'requirements.txt', to: '.' },
+        {
+          from: 'public/src_py',
+          to: 'src_py',
+        },
       ],
     }),
   ],
-
-  // .py ファイルをビルド対象から除外
-  module: {
-    rules: [
-      {
-        test: /\.py$/,
-        type: 'asset/source', // .pyファイルをテキストとして扱う
-      },
-    ],
-  },
 };
