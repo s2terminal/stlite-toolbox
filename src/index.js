@@ -7,6 +7,7 @@ async function startStlite() {
   const FILES = [
     "streamlit_app.py",
     "pages/char_count.py",
+    "pages/json_compare.py",
   ];
 
   const files = FILES.reduce((acc, file) => {
